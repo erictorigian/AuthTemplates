@@ -6,68 +6,73 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ProfileView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     var body: some View {
-        List {
-            //user info
-            Section {
-                HStack {
-                    Text(User.MOCK_USER.initals)
-                        .font(.title)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .frame(width: 72, height: 72)
-                        .background(Color(.systemGray3))
-                        .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(User.MOCK_USER.fullname)
+        if let user = viewModel.currentUser {
+            List {
+                //user info
+                Section {
+                    HStack {
+                        Text(user.initals)
+                            .font(.title)
                             .fontWeight(.semibold)
-                            .padding(.top, 4)
+                            .foregroundColor(.white)
+                            .frame(width: 72, height: 72)
+                            .background(Color(.systemGray3))
+                            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                         
-                        Text(User.MOCK_USER.email)
-                            .font(.footnote)
-                            .foregroundColor(.gray)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(user.fullname)
+                                .fontWeight(.semibold)
+                                .padding(.top, 4)
+                            
+                            Text(user.email)
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                        }
+                        .padding()
                     }
-                    .padding()
                 }
-            }
-            
-            
-            Section("General Preferences") {
-                HStack {
-                    ProfileRowView(title: "Version",
-                                   imageName: "gear",
-                                   tintColor: .blue)
-             
-                    Text("1.0")
-                        .foregroundColor(.black)
+                
+                
+                Section("General Preferences") {
+                    HStack {
+                        ProfileRowView(title: "Version",
+                                       imageName: "gear",
+                                       tintColor: .blue)
+                        
+                        Text("1.0")
+                            .foregroundColor(.black)
+                    }
                 }
-            }
-            
-            
-            Section("Account Settings") {
-                Button {
-                    print("sign out")
-                } label: {
-                    ProfileRowView(title: "Sign Out",
-                                   imageName: "rectangle.portrait.and.arrow.right",
-                                   tintColor: .red)
-                }
-
-                Button {
-                    print("Delete account")
-                } label: {
+                
+                
+                Section("Account Settings") {
+                    Button {
+                        viewModel.signOut()
+                    } label: {
+                        ProfileRowView(title: "Sign Out",
+                                       imageName: "rectangle.portrait.and.arrow.right",
+                                       tintColor: .red)
+                    }
                     
-                    ProfileRowView(title: "Delete Account",
-                                   imageName: "xmark.circle.fill",
-                                   tintColor: .red)
+                    Button {
+                        print("Delete account")
+                    } label: {
+                        
+                        ProfileRowView(title: "Delete Account",
+                                       imageName: "xmark.circle.fill",
+                                       tintColor: .red)
+                    }
+                    
                 }
-
             }
+            .listStyle(.insetGrouped)
         }
-        .listStyle(.insetGrouped)
     }
 }
 

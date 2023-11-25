@@ -10,6 +10,7 @@ import Firebase
 
 @main
 struct AuthTemplatesApp: App {
+    @StateObject var viewModel = AuthViewModel()
     
     init() {
         FirebaseApp.configure()
@@ -18,6 +19,7 @@ struct AuthTemplatesApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(viewModel)
         }
     }
 }

@@ -6,12 +6,19 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ContentView: View {
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     var body: some View {
-        NavigationView {
-            LoginView()
-                .navigationBarBackButtonHidden(true)
+        Group {
+            if Auth.auth().currentUser != nil {
+                ProfileView()
+            } else {
+                LoginView()
+                    .navigationBarBackButtonHidden(true)
+            }
         }
     }
 }

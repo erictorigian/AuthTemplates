@@ -10,6 +10,8 @@ import SwiftUI
 struct ForgotPassword: View {
     @State private var email: String = ""
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     
     var body: some View {
         //image
@@ -29,9 +31,9 @@ struct ForgotPassword: View {
             
             
             VStack {
-                //button
+                //send password reset button
                 Button {
-                    print("Reset password")
+                    viewModel.sendPasswordReset(email: email)
                 } label: {
                     HStack {
                         Text("Reset Password")
